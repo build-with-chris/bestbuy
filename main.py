@@ -1,16 +1,49 @@
-# This is a sample Python script.
+import products
+import store
 
-# Press ⌃R to execute it or replace it with your code.
-# Press Double ⇧ to search everywhere for classes, files, tool windows, actions, and settings.
+# inital inventory
+product_list = [ products.Product("MacBook Air M2", price=1450, quantity=100),
+                 products.Product("Bose QuietComfort Earbuds", price=250, quantity=500),
+                 products.Product("Google Pixel 7", price=500, quantity=250)
+               ]
+
+best_buy = store.Store(product_list)
+
+def start(best_buy):
+    while True:
+        print("    Store Menu")
+        print("    ----------")
+        print(
+            f'1. List all products in store'
+            f'\n2. Show total amount in store'
+            f'\n3. Make an order'
+            f'\n4. Quit'
+        )
+        try:
+            action = int(input("Please choose a number: "))
+        except:
+            ValueError("Invalid Input")
+            continue
+
+        if action == 1:
+            for product in best_buy.get_all_products():
+                print(product.name, product.price, product.quantity)
+        if action == 2:
+            print(f"Total amount: {best_buy.get_total_quantity()}")
+
+        if action == 3:
+            product_name = input("Enter product name: ")
+            quantity = int(input("Enter quantity: "))
+            shopping_list = (product_name, quantity)
+            best_buy.order(shopping_list)
+        if action == 4:
+            break
 
 
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press ⌘F8 to toggle the breakpoint.
 
 
-# Press the green button in the gutter to run the script.
+
+
 if __name__ == '__main__':
-    print_hi('PyCharm')
+    start(best_buy)
 
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
