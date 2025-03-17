@@ -3,6 +3,8 @@ from logging import raiseExceptions
 
 
 class Product:
+    """creating a class with the attributes of product name price and quantity, that
+    updates everytime the buy function or set_quantity is executed ."""
     def __init__(self, name, price, quantity):
         if not isinstance(name, str) or name == "":
             raise TypeError("please enter a name for the product")
@@ -24,11 +26,8 @@ class Product:
         self.quantity = quantity
 
 
-
     def is_active(self):
-        if self.quantity == 0 and self._active:
-            self.deactivate()
-            return False
+        return self.quantity > 0
 
 
     def activate(self):
@@ -47,6 +46,7 @@ class Product:
     def show(self):
         print(f"{self.name}, Price: {self.price}, Quantity: {self.quantity}")
 
+
     def buy(self, quantity):
         if quantity > self.quantity:
             raise ValueError
@@ -54,20 +54,5 @@ class Product:
         self.quantity -= quantity
         show_price = self.price * quantity
         return f'The total price for your {quantity} {self.name} is {show_price}'
-
-
-bose = Product("Bose QuietComfort Earbuds", price=250, quantity=500)
-
-mac = Product("MacBook Air M2", price=1450, quantity=100)
-
-print(bose.buy(250))
-print(mac.buy(100))
-print(mac.is_active())
-mac.show()
-bose.show()
-bose.set_quantity(1000)
-bose.show()
-
-bose.show()
 
 
