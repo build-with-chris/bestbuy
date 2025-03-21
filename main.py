@@ -28,8 +28,8 @@ def start(best_buy):
 
         if action == 1:
             print()
-            for product in best_buy.get_all_products():
-                print(f'{product.name:28}, Price: ${product.price:4}, Quantity: {product.quantity}')
+            for i, product in enumerate(best_buy.get_all_products()):
+                print(f'{i}. {product.name:28}, Price: ${product.price:4}, Quantity: {product.quantity}')
             print()
 
         elif action == 2:

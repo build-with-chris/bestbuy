@@ -1,6 +1,3 @@
-from typing import get_args
-
-import products
 from products import Product
 
 
@@ -42,11 +39,3 @@ class Store:
             total_price += product.price * quantity
         return f'Order costs: {total_price} dollars.'
 
-product_list = [products.Product("MacBook Air M2", price=1450, quantity=100),
-                products.Product("Bose QuietComfort Earbuds", price=250, quantity=500),
-                products.Product("Google Pixel 7", price=500, quantity=250),
-               ]
-best_buy = Store(product_list)
-a_products = best_buy.get_all_products()
-print(best_buy.get_total_quantity())
-print(best_buy.order([(a_products[0], 1), (a_products[1], 2)]))
