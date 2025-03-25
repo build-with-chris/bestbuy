@@ -44,11 +44,17 @@ def start(best_buy):
         if action == 1:
             print()
             for i, product in enumerate(best_buy.get_all_products(),1):
-                if hasattr(product, 'promotion'):
-                    print(f'{i}. {product.name:28}, Price: ${product.price:4}, Quantity: {product.quantity}, Promotion: {product.promotion.description}')
+                if isinstance(product, products.LimitedProduct):
+                    quantity_display = "Limited to 1 per order!"
+                elif  isinstance(product, products.NonStockedProduct):
+                    quantity_display = "unlimited"
                 else:
-                    print(
-                        f'{i}. {product.name:28}, Price: ${product.price:4}, Quantity: {product.quantity}, Promotion: None')
+                    quantity_display = f"Quantity: {product.quantity}"
+
+                if hasattr(product, 'promotion'):
+                    print(f'{i}. {product.name:28}, Price: ${product.price:4}, {quantity_display }, Promotion: {product.promotion.description}')
+                else:
+                    print(f'{i}. {product.name:28}, Price: ${product.price:4}, {quantity_display }, Promotion: None')
             print()
 
         elif action == 2:
