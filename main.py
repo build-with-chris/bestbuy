@@ -1,13 +1,28 @@
 import products
 import store
+import promotions
 
 # setup initial stock of inventory
-product_list = [
-    products.Product("MacBook Air M2", price=1450, quantity=100),
-    products.Product("Bose QuietComfort Earbuds", price=250, quantity=500),
-    products.Product("Google Pixel 7", price=500, quantity=250)
-]
+# setup initial stock of inventory
+product_list = [ products.Product("MacBook Air M2", price=1450, quantity=100),
+                 products.Product("Bose QuietComfort Earbuds", price=250, quantity=500),
+                 products.Product("Google Pixel 7", price=500, quantity=250),
+                 products.NonStockedProduct("Windows License", price=125),
+                 products.LimitedProduct("Shipping", price=10, quantity=250, maximum=1)
+               ]
+
+# Create promotion catalog
+second_half_price = promotions.SecondHalfPrice("Second Half price!")
+third_one_free = promotions.ThirdOneFree("Third One Free!")
+thirty_percent = promotions.PercentDiscount("30% off!", 30)
+
 best_buy = store.Store(product_list)
+
+
+# Add promotions to products
+product_list[0].set_promotion(second_half_price)
+product_list[1].set_promotion(third_one_free)
+product_list[3].set_promotion(thirty_percent)
 
 
 def start(best_buy):
@@ -28,8 +43,12 @@ def start(best_buy):
 
         if action == 1:
             print()
-            for i, product in enumerate(best_buy.get_all_products()):
-                print(f'{i}. {product.name:28}, Price: ${product.price:4}, Quantity: {product.quantity}')
+            for i, product in enumerate(best_buy.get_all_products(),1):
+                if hasattr(product, 'promotion'):
+                    print(f'{i}. {product.name:28}, Price: ${product.price:4}, Quantity: {product.quantity}, Promotion: {product.promotion.description}')
+                else:
+                    print(
+                        f'{i}. {product.name:28}, Price: ${product.price:4}, Quantity: {product.quantity}, Promotion: None')
             print()
 
         elif action == 2:
@@ -46,8 +65,8 @@ def start(best_buy):
                         print(best_buy.order(shopping_list))
                         break
                     product_num = int(product_input)
-                    if 0 <= product_num < len(best_buy.products):
-                        product_name = best_buy.products[product_num]
+                    if 1 <= product_num < len(best_buy.products)+1:
+                        product_name = best_buy.products[product_num -1]
                     else:
                         print("Invalid product number")
                         continue

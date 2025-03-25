@@ -1,7 +1,3 @@
-from itertools import product
-from logging import raiseExceptions
-
-
 class Product:
     """creating a class with the attributes of product name price and quantity, that
     updates everytime the buy function or set_quantity is executed ."""
@@ -46,14 +42,21 @@ class Product:
     def show(self):
         print(f"{self.name}, Price: {self.price}, Quantity: {self.quantity}")
 
+    def set_promotion(self, promotion):
+        self.promotion = promotion
+
+
 
     def buy(self, quantity):
         if quantity > self.quantity:
-            raise ValueError
-
+            raise ValueError("Not enough stock available")
         self.quantity -= quantity
-        show_price = self.price * quantity
-        return f'The total price for your {quantity} {self.name} is {show_price}'
+        if hasattr(self, "promotion") and self.promotion:
+            print(f"Applying promotion: {self.promotion.description}")
+            total_price = self.promotion.apply_promotion(self, quantity)
+        else:
+            total_price = self.price * quantity
+        return total_price
 
 
 class NonStockedProduct(Product):
@@ -81,3 +84,6 @@ class LimitedProduct(Product):
 
     def show(self):
         print(f"{self.name}, Price: {self.price}")
+
+
+
