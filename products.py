@@ -56,3 +56,29 @@ class Product:
         return f'The total price for your {quantity} {self.name} is {show_price}'
 
 
+class NonStockedProduct(Product):
+    def __init__(self, name, price,quantity):
+        super().__init__(name, price, quantity)
+        self.quantity = 0
+
+    def is_active(self):
+        return True
+
+    def buy(self, quantity):
+        show_price = self.price * quantity
+        return f'The total price for your {quantity} {self.name} is {show_price}'
+
+    def show(self):
+        print(f"{self.name}, Price: {self.price}")
+
+class LimitedProduct(Product):
+    def __init__(self, name, price,quantity, maximum):
+        super().__init__(name, price, quantity)
+        self.maximum = maximum
+
+    def buy(self, quantity):
+        if quantity > self.maximum:
+            raise ValueError
+
+    def show(self):
+        print(f"{self.name}, Price: {self.price}")
