@@ -35,7 +35,6 @@ class Store:
         for product, quantity in shopping_list:
             if product.quantity < quantity:
                 raise ValueError("Not enough in stock")
-            product.quantity -= quantity
             total_price += product.buy(quantity)
         return f'Order costs: {total_price} dollars.'
 
