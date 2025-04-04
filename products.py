@@ -52,7 +52,7 @@ class Product:
             raise ValueError("Not enough stock available")
         self.quantity -= quantity
         if hasattr(self, "promotion") and self.promotion:
-            print(f"Applying promotion: {self.promotion.description}")
+            print(f"Applying promotion to {self.name}: {self.promotion.description}")
             total_price = self.promotion.apply_promotion(self, quantity)
         else:
             total_price = self.price * quantity
@@ -66,9 +66,13 @@ class NonStockedProduct(Product):
     def is_active(self):
         return True
 
-    def buy(self):
-        show_price = self.price
-        return f'The total price for your {self.name} is {show_price:.0f}'
+    def buy(self, quantity):
+        if hasattr(self, "promotion") and self.promotion:
+            print(f"Applying promotion to {self.name}: {self.promotion.description}")
+            total_price = self.promotion.apply_promotion(self, quantity)
+        else:
+            total_price = self.price * quantity
+        return total_price
 
     def show(self):
         print(f"{self.name}, Price: {self.price:.0f}")
@@ -80,7 +84,11 @@ class LimitedProduct(Product):
 
     def buy(self, quantity):
         if quantity > self.maximum:
-            raise ValueError
+            print(f"You can only buy shipping {self.maximum} per order. Added {self.maximum} {self.name}.")
+            total_price = self.price * self.maximum
+        else:
+            total_price = self.price * quantity
+        return total_price
 
     def show(self):
         print(f"{self.name}, Price: {self.price}")

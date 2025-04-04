@@ -7,16 +7,17 @@ class Promotion(ABC):
         self.description = description
         self._discount = percent
 
-    @abstractmethod
-    def apply_promotion(self, product, quantity):
-        discounted_price = product.price * (1-self._discount)
-        return discounted_price * quantity
+
+
+    def apply_promotion(self, product, quantity=1):
+        discounted_price = product.price * (1 - self._discount/100)
+        return discounted_price
 
 class SecondHalfPrice(Promotion):
     def apply_promotion(self, product, quantity):
         total_price = 0
-        for i in range(quantity):
-            if i % 2 == 1:
+        for i in range(1, quantity+1):
+            if i % 2 == 0:
                 total_price += 0.5 * product.price
             else:
                 total_price += product.price
@@ -36,8 +37,6 @@ class PercentDiscount(Promotion):
         super().__init__(description, discount)
 
     def apply_promotion(self, product, quantity):
-        discounted_price = product.price * (1-self._discount)
-        return discounted_price * quantity
+        total_price = product.price * (1-self._discount/100) * quantity
+        return total_price
 
-second_half_price = SecondHalfPrice("Second Half price!")
-# print(promotions.self.description)

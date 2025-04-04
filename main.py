@@ -63,22 +63,31 @@ def start(best_buy):
             print()
 
         elif action == 3:
+            print("-----")
+            for i, product in enumerate(best_buy.get_all_products(),1):
+                if isinstance(product, products.LimitedProduct):
+                    quantity_display = "Limited to 1 per order!"
+                elif  isinstance(product, products.NonStockedProduct):
+                    quantity_display = "unlimited"
+                else:
+                    quantity_display = f"Quantity: {product.quantity}"
+
+                if hasattr(product, 'promotion'):
+                    print(f'{i}. {product.name:28}, Price: ${product.price:4}, {quantity_display }, Promotion: {product.promotion.description}')
+                else:
+                    print(f'{i}. {product.name:28}, Price: ${product.price:4}, {quantity_display }, Promotion: None')
+            print("-----")
             shopping_list = []
             while True:
-                try:
-                    product_input = input("Which product # do you want? (or leave blank to finish): ")
-                    if product_input == "":
-                        print(best_buy.order(shopping_list))
-                        break
-                    product_num = int(product_input)
-                    if 1 <= product_num < len(best_buy.products)+1:
-                        product_name = best_buy.products[product_num -1]
-                    else:
-                        print("Invalid product number")
-                        continue
-
-                except ValueError:
-                    print("Invalid input. Please try again.")
+                product_input = input("Which product # do you want? (or leave blank to finish): ")
+                if product_input == "":
+                    print(best_buy.order(shopping_list))
+                    break
+                product_num = int(product_input)
+                if 1 <= product_num < len(best_buy.products)+1:
+                    product_name = best_buy.products[product_num -1]
+                else:
+                    print("Invalid product number")
                     continue
 
                 try:

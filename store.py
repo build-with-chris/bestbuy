@@ -1,4 +1,4 @@
-from products import Product
+from products import Product, NonStockedProduct, LimitedProduct
 
 
 class Store:
@@ -33,8 +33,10 @@ class Store:
     def order(self, shopping_list):
         total_price = 0
         for product, quantity in shopping_list:
-            if product.quantity < quantity:
-                raise ValueError("Not enough in stock")
+            if not isinstance(product, NonStockedProduct):
+                if product.quantity < quantity:
+                    raise ValueError("Not enough in stock")
+
             total_price += product.buy(quantity)
         return f'Order costs: {total_price} dollars.'
 
