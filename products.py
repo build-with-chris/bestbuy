@@ -1,3 +1,6 @@
+from multiprocessing.managers import Value
+
+
 class Product:
     """creating a class with the attributes of product name price and quantity, that
     updates everytime the buy function or set_quantity is executed ."""
@@ -84,8 +87,10 @@ class LimitedProduct(Product):
 
     def buy(self, quantity):
         if quantity > self.maximum:
-            print(f"You can only buy shipping {self.maximum} per order. Added {self.maximum} {self.name}.")
-            total_price = self.price * self.maximum
+
+            # print(f"You can only buy shipping {self.maximum} per order. Added {self.maximum} {self.name}.")
+            # total_price = self.price * self.maximum
+            raise ValueError("Only one shipping allowed")
         else:
             total_price = self.price * quantity
         return total_price

@@ -38,7 +38,7 @@ best_buy = store.Store(product_list)
 def test_non_stocked():
     license = products.NonStockedProduct("Windows License", price=125)
     assert license.quantity == 0
-    assert license.buy() == "The total price for your Windows License is 125"
+    assert license.buy(1) == 125
     # assert license.show() == "Windows License, Price: 125"
 
 def test_limited_product():

@@ -8,10 +8,10 @@ class Promotion(ABC):
         self._discount = percent
 
 
-
+    @abstractmethod
     def apply_promotion(self, product, quantity=1):
-        discounted_price = product.price * (1 - self._discount/100)
-        return discounted_price
+        '''zwingend nötig für eine Promotion'''
+        pass
 
 class SecondHalfPrice(Promotion):
     def apply_promotion(self, product, quantity):
