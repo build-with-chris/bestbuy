@@ -1,6 +1,3 @@
-from multiprocessing.managers import Value
-
-
 class Product:
     """creating a class with the attributes of product name price and quantity, that
     updates everytime the buy function or set_quantity is executed ."""
@@ -51,6 +48,8 @@ class Product:
 
 
     def buy(self, quantity):
+        """Check if the quantity in stock is sufficient and apllies promotion if available.
+        returns the total price for one product"""
         if quantity > self.quantity:
             raise ValueError("Not enough stock available")
         self.quantity -= quantity
@@ -63,6 +62,8 @@ class Product:
 
 
 class NonStockedProduct(Product):
+    '''a class that handles products that don't depend on quantity
+    we do not adjust quantity of the product in this class for the buy methode'''
     def __init__(self, name, price,quantity= 0):
         super().__init__(name, price, quantity)
 
@@ -81,15 +82,14 @@ class NonStockedProduct(Product):
         print(f"{self.name}, Price: {self.price:.0f}")
 
 class LimitedProduct(Product):
+    '''A class that handles a product with maximum amount per order
+    we raise an error if the maximum is exceeded.'''
     def __init__(self, name, price,quantity, maximum):
         super().__init__(name, price, quantity)
         self.maximum = maximum
 
     def buy(self, quantity):
         if quantity > self.maximum:
-
-            # print(f"You can only buy shipping {self.maximum} per order. Added {self.maximum} {self.name}.")
-            # total_price = self.price * self.maximum
             raise ValueError("Only one shipping allowed")
         else:
             total_price = self.price * quantity

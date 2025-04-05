@@ -1,6 +1,5 @@
 from products import Product, NonStockedProduct, LimitedProduct
 
-
 class Store:
     def __init__(self, products=None):
         if products is None:
@@ -15,7 +14,7 @@ class Store:
         self.products.append(product)
 
     def remove_product(self, product):
-        pass
+        self.products.remove(product)
 
     def get_total_quantity(self):
         total_quan = []
@@ -31,15 +30,13 @@ class Store:
         return active_products
 
     def order(self, shopping_list):
+        """Gets a list of Products + their quantity as input in form of a list of tuples
+        returns the total cost for the whole order with accessing the buy function from products."""
         total_price = 0
         for product, quantity in shopping_list:
-            # if isinstance(product, LimitedProduct):
-            #     if product.quantity > Limit
             if not isinstance(product, NonStockedProduct):
                 if product.quantity < quantity:
                     raise ValueError("Not enough in stock")
-
-
             total_price += product.buy(quantity)
         return f'Order costs: {total_price} dollars.'
 

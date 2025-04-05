@@ -1,12 +1,9 @@
 from abc import ABC, abstractmethod
 
-
-
 class Promotion(ABC):
     def __init__(self, description, percent =0):
         self.description = description
         self._discount = percent
-
 
     @abstractmethod
     def apply_promotion(self, product, quantity=1):

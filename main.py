@@ -8,7 +8,8 @@ best_buy = None
 
 
 def main():
-    '''depending on the users choice, the user can display, or buy items from the shop'''
+    """depending on the users choice, the user can display, or buy items from the shop"""
+
     # setup initial stock of inventory
     product_list = [products.Product("MacBook Air M2", price=1450, quantity=100),
                     products.Product("Bose QuietComfort Earbuds", price=250, quantity=500),
@@ -66,7 +67,9 @@ def main():
             print("Bye")
             break
 
+
 def display_menu():
+    """A simple shop menu as shown in Codio"""
     print("    Store Menu")
     print("    ----------")
     print(
@@ -82,7 +85,10 @@ def display_menu():
         main()
     return action
 
+
 def display_prodcuts_with_details():
+    """A for loop that handles the different specifications regarding quantity of the products
+    and their promotion"""
     print("-----")
     for i, product in enumerate(best_buy.get_all_products(), 1):
         if isinstance(product, products.LimitedProduct):
@@ -94,9 +100,11 @@ def display_prodcuts_with_details():
 
         if hasattr(product, 'promotion'):
             print(
-                f'{i}. {product.name:28}, Price: ${product.price:4}, {quantity_display}, Promotion: {product.promotion.description}')
+                f'{i}. {product.name:28}, Price: ${product.price:4}, '
+                f'{quantity_display}, Promotion: {product.promotion.description}')
         else:
-            print(f'{i}. {product.name:28}, Price: ${product.price:4}, {quantity_display}, Promotion: None')
+            print(f'{i}. {product.name:28}, Price: ${product.price:4}, '
+                  f'{quantity_display}, Promotion: None')
     print("-----")
 
 if __name__ == '__main__':
