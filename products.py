@@ -48,7 +48,7 @@ class Product:
 
 
     def buy(self, quantity):
-        """Check if the quantity in stock is sufficient and apllies promotion if available.
+        """Check if the quantity in stock is sufficient and applies promotion if available.
         returns the total price for one product"""
         if quantity > self.quantity:
             raise ValueError("Not enough stock available")
